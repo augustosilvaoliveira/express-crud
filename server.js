@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+
 const bodyParser = require('body-parser')
 require('dotenv').config()
 const MongoClient  = require('mongodb').MongoClient
@@ -49,6 +50,8 @@ const PORT = process.env.PORT || 8080
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.set('view engine', 'ejs')
+app.use(express.static('public'))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
 	let array = []
@@ -71,6 +74,20 @@ app.get('/', (req, res) => {
 	
 })
 
+app.put('/quotes', (req, res) => {
+  const starC = database.ref(db, nomeTabela)
+  database.onValue(starC, snap => {
+    snap.forEach(dado => {
+    	if('Darth Vadar' == req.body.name) {
+    		database.update(database.ref(db, `quotes/${req.key}`), {
+    			name: 'Yoda',
+    			quote: 'I find your lack of faith disturbing.'
+			  })
+    	}
+    })
+    
+  })
+})
 
 app.post('/quotes', (req, res) => {
 	var newSenhasKey =  database.push(database.child(database.ref(db), 'quotes/')).key;
