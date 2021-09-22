@@ -66,7 +66,9 @@ app.get('/', (req, res) => {
 
 		})
 	})	
-	res.render('index.ejs', {quotes: array})	
+	res.render('index.ejs', {quotes: array})
+
+	
 })
 
 
@@ -77,7 +79,8 @@ app.post('/quotes', (req, res) => {
 		quote: req.body.quote
 	}).then(() => {
 		let result = { name: req.body.name, quote: req.body.quote }
-		res.redirect('/', {quote: result})
+		console.log('Cadastrado com sucesso!, ' + result)
+		res.redirect('/')
 	})
 	.catch(err => console.log(err))	
 })
